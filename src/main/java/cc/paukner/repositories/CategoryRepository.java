@@ -1,6 +1,6 @@
-package guru.springfamework.repositories;
+package cc.paukner.repositories;
 
-import guru.springfamework.domain.Category;
+import cc.paukner.domain.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
