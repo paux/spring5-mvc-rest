@@ -1,4 +1,4 @@
-package cc.paukner.api.v1.services;
+package cc.paukner.services;
 
 import cc.paukner.api.v1.model.CategoryDto;
 
