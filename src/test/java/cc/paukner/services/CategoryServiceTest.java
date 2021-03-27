@@ -27,7 +27,7 @@ public class CategoryServiceTest {
     CategoryRepository categoryRepository;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
 
         categoryService = new DefaultCategoryService(CategoryMapper.INSTANCE, categoryRepository);
@@ -35,7 +35,6 @@ public class CategoryServiceTest {
 
     @Test
     public void getAllCategories() {
-
         //given
         List<Category> categories = Arrays.asList(new Category(), new Category(), new Category());
 
@@ -45,12 +44,11 @@ public class CategoryServiceTest {
         List<CategoryDto> categoryDtos = categoryService.getAllCategories();
 
         // then
-        assertEquals(3, categories.size());
+        assertEquals(3, categoryDtos.size());
     }
 
     @Test
     public void getCategoryByName() throws Exception {
-
         // given
         Category category = Category.builder().id(ID).name(NAME).build();
 
