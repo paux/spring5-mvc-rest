@@ -43,4 +43,12 @@ public class DefaultCustomerService implements CustomerService {
                 .map(customerMapper::customerToCustomerDto)
                 .orElseThrow(RuntimeException::new); // TODO better exception handling: HTTP 404
     }
+
+    @Override
+    public CustomerDto createCustomer(CustomerDto customerDto) {
+        CustomerDto savedCustomerAsDto =
+                customerMapper.customerToCustomerDto(customerRepository.save(customerMapper.customerDtoToCustomer(customerDto)));
+        savedCustomerAsDto.setCustomerUrl("/api/v1/customer/" + savedCustomerAsDto.getId());
+        return savedCustomerAsDto;
+    }
 }

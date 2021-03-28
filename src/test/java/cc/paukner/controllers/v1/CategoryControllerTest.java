@@ -1,6 +1,7 @@
-package cc.paukner.controllers;
+package cc.paukner.controllers.v1;
 
 import cc.paukner.api.v1.model.CategoryDto;
+import cc.paukner.controllers.CategoryController;
 import cc.paukner.services.CategoryService;
 import org.junit.Before;
 import org.junit.Test;

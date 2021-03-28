@@ -1,6 +1,7 @@
-package cc.paukner.controllers;
+package cc.paukner.controllers.v1;
 
 import cc.paukner.api.v1.model.CustomerDto;
+import cc.paukner.controllers.CustomerController;
 import cc.paukner.services.CustomerService;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,10 +19,11 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class CustomerControllerTest {
+public class CustomerControllerTest extends AbstractRestControllerTest {
 
     public static final String LAST_NAME = "Paukner";
     public static final String FIRST_NAME = "Stevie";
@@ -63,7 +65,26 @@ public class CustomerControllerTest {
         mockMvc.perform(get("/api/v1/customers/" + LAST_NAME + "/" + FIRST_NAME)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.firstName", equalTo(FIRST_NAME)))
-                .andExpect(jsonPath("$.lastName", equalTo(LAST_NAME)));
+                .andExpect(jsonPath("$.first_name", equalTo(FIRST_NAME)))
+                .andExpect(jsonPath("$.last_name", equalTo(LAST_NAME)));
+    }
+
+    @Test
+    public void createCustomer() throws Exception {
+        CustomerDto customerDto = CustomerDto.builder().id(1L).firstName(FIRST_NAME).lastName(LAST_NAME).build();
+        CustomerDto returnDto = CustomerDto.builder()
+                        .firstName(customerDto.getFirstName())
+                        .lastName(customerDto.getLastName())
+                        .customerUrl("/api/v1/customers/1")
+                .build();
+
+        when(customerService.createCustomer(customerDto)).thenReturn(returnDto);
+
+        mockMvc.perform(post("/api/v1/customers/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(customerDto)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.first_name", equalTo(FIRST_NAME)))
+                .andExpect(jsonPath("$.customer_url", equalTo("/api/v1/customers/1")));
     }
 }

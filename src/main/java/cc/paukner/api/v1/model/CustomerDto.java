@@ -1,5 +1,6 @@
 package cc.paukner.api.v1.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +12,13 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CustomerDto {
     private Long id;
+
+    @JsonProperty("first_name")
     private String firstName;
+
+    @JsonProperty("last_name")
     private String lastName;
+
+    @JsonProperty("customer_url")
     private String customerUrl;
 }
