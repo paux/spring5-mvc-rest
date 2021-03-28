@@ -51,8 +51,8 @@ public class CustomerServiceTest {
     @Test
     public void createCustomer() {
         // given
-        CustomerDto customerDto = CustomerDto.builder().firstName("Hugo").lastName("Portisch").build();
-        Customer customer = Customer.builder().id(1L).lastName(customerDto.getLastName()).firstName(customerDto.getFirstName()).build();
+        CustomerDto customerDto = CustomerDto.builder().firstName(FIRST_NAME).lastName(LAST_NAME).build();
+        Customer customer = Customer.builder().id(ID).lastName(customerDto.getLastName()).firstName(customerDto.getFirstName()).build();
 
         when(customerRepository.save(any(Customer.class))).thenReturn(customer);
 
@@ -62,6 +62,22 @@ public class CustomerServiceTest {
         // then
         assertEquals(customerDto.getFirstName(), savedDto.getFirstName());
         assertEquals("/api/v1/customer/1", savedDto.getCustomerUrl());
+    }
 
+    @Test
+    public void updateCustomer() {
+        // given
+        CustomerDto customerDto = CustomerDto.builder().firstName("Hugo").lastName("Portisch").build();
+        Customer customer = Customer.builder().id(ID).lastName(customerDto.getLastName()).firstName(customerDto.getFirstName()).build();
+
+        when(customerRepository.save(any(Customer.class))).thenReturn(customer);
+
+        // when
+        CustomerDto savedDto = customerService.updateCustomer(ID, customerDto);
+
+        // then
+        assertEquals(customerDto.getFirstName(), savedDto.getFirstName());
+        assertEquals(customerDto.getLastName(), savedDto.getLastName());
+        assertEquals("/api/v1/customer/2", savedDto.getCustomerUrl());
     }
 }

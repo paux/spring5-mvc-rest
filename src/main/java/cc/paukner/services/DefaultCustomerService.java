@@ -2,6 +2,7 @@ package cc.paukner.services;
 
 import cc.paukner.api.v1.mapper.CustomerMapper;
 import cc.paukner.api.v1.model.CustomerDto;
+import cc.paukner.domain.Customer;
 import cc.paukner.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -46,8 +47,18 @@ public class DefaultCustomerService implements CustomerService {
 
     @Override
     public CustomerDto createCustomer(CustomerDto customerDto) {
-        CustomerDto savedCustomerAsDto =
-                customerMapper.customerToCustomerDto(customerRepository.save(customerMapper.customerDtoToCustomer(customerDto)));
+        return saveCustomer(customerMapper.customerDtoToCustomer(customerDto));
+    }
+
+    @Override
+    public CustomerDto updateCustomer(Long id, CustomerDto customerDto) {
+        Customer customer = customerMapper.customerDtoToCustomer(customerDto);
+        customer.setId(id);
+        return saveCustomer(customer);
+    }
+
+    private CustomerDto saveCustomer(Customer customer) {
+        CustomerDto savedCustomerAsDto = customerMapper.customerToCustomerDto(customerRepository.save(customer));
         savedCustomerAsDto.setCustomerUrl("/api/v1/customer/" + savedCustomerAsDto.getId());
         return savedCustomerAsDto;
     }
