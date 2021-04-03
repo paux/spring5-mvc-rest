@@ -12,6 +12,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.Arrays;
 import java.util.List;
 
+import static cc.paukner.controllers.CustomerController.BASE_URL;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -63,7 +64,7 @@ public class CustomerServiceTest {
 
         // then
         assertEquals(customerDto.getFirstName(), savedDto.getFirstName());
-        assertEquals("/api/v1/customer/1", savedDto.getCustomerUrl());
+        assertEquals(BASE_URL + 2, savedDto.getCustomerUrl());
     }
 
     @Test
@@ -80,7 +81,7 @@ public class CustomerServiceTest {
         // then
         assertEquals(customerDto.getFirstName(), savedDto.getFirstName());
         assertEquals(customerDto.getLastName(), savedDto.getLastName());
-        assertEquals("/api/v1/customer/2", savedDto.getCustomerUrl());
+        assertEquals(BASE_URL + 2, savedDto.getCustomerUrl());
     }
 
     @Test

@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.List;
 
+import static cc.paukner.controllers.CustomerController.BASE_URL;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
@@ -33,7 +34,7 @@ public class CustomerControllerTest extends AbstractRestControllerTest {
 
     public static final String LAST_NAME = "Paukner";
     public static final String FIRST_NAME = "Stevie";
-    public static final String CUSTOMER_API = "/api/v1/customers/1";
+    public static final String CUSTOMER_API = BASE_URL + 1;
 
     @Mock
     CustomerService customerService;
@@ -65,7 +66,7 @@ public class CustomerControllerTest extends AbstractRestControllerTest {
 
         when(customerService.getAllCustomers()).thenReturn(List.of(customerDto1, customerDto2));
 
-        mockMvc.perform(get("/api/v1/customers/")
+        mockMvc.perform(get(BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.customers", hasSize(2)));
@@ -80,7 +81,7 @@ public class CustomerControllerTest extends AbstractRestControllerTest {
 
         when(customerService.getCustomerByName(anyString(), anyString())).thenReturn(customerDto);
 
-        mockMvc.perform(get("/api/v1/customers/" + LAST_NAME + "/" + FIRST_NAME)
+        mockMvc.perform(get(BASE_URL + LAST_NAME + "/" + FIRST_NAME)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.first_name", equalTo(FIRST_NAME)))
@@ -102,7 +103,7 @@ public class CustomerControllerTest extends AbstractRestControllerTest {
 
         when(customerService.createCustomer(customerDto)).thenReturn(returnDto);
 
-        mockMvc.perform(post("/api/v1/customers/")
+        mockMvc.perform(post(BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(customerDto)))
                 .andExpect(status().isCreated())

@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static cc.paukner.controllers.CustomerController.BASE_URL;
+
 @Service
 public class DefaultCustomerService implements CustomerService {
 
@@ -26,7 +28,7 @@ public class DefaultCustomerService implements CustomerService {
                 .stream()
                 .map(customer -> {
                     CustomerDto customerDto = customerMapper.customerToCustomerDto(customer);
-                    customerDto.setCustomerUrl("/api/v1/customer/" + customer.getId());
+                    customerDto.setCustomerUrl(getCustomerUrl(customer.getId()));
                     return customerDto;
                 })
                 .collect(Collectors.toList());
@@ -59,7 +61,7 @@ public class DefaultCustomerService implements CustomerService {
 
     private CustomerDto saveCustomer(Customer customer) {
         CustomerDto savedCustomerAsDto = customerMapper.customerToCustomerDto(customerRepository.save(customer));
-        savedCustomerAsDto.setCustomerUrl("/api/v1/customer/" + savedCustomerAsDto.getId());
+        savedCustomerAsDto.setCustomerUrl(getCustomerUrl(savedCustomerAsDto.getId()));
         return savedCustomerAsDto;
     }
 
@@ -73,7 +75,7 @@ public class DefaultCustomerService implements CustomerService {
                 customer.setLastName(customerDto.getLastName());
             }
             CustomerDto returnDto = customerMapper.customerToCustomerDto(customerRepository.save(customer));
-            returnDto.setCustomerUrl("/api/v1/customer/" + id);
+            returnDto.setCustomerUrl(getCustomerUrl(id));
             return returnDto;
         }).orElseThrow(RuntimeException::new); // TODO: better exception handling
     }
@@ -81,5 +83,9 @@ public class DefaultCustomerService implements CustomerService {
     @Override
     public void deleteCustomerById(Long id) {
         customerRepository.deleteById(id);
+    }
+
+    private String getCustomerUrl(Long id) {
+        return BASE_URL + id;
     }
 }
