@@ -62,4 +62,24 @@ public class DefaultCustomerService implements CustomerService {
         savedCustomerAsDto.setCustomerUrl("/api/v1/customer/" + savedCustomerAsDto.getId());
         return savedCustomerAsDto;
     }
+
+    @Override
+    public CustomerDto patchCustomer(Long id, CustomerDto customerDto) {
+        return customerRepository.findById(id).map(customer -> {
+            if (customerDto.getFirstName() != null) {
+                customer.setFirstName(customerDto.getFirstName());
+            }
+            if (customerDto.getLastName() != null) {
+                customer.setLastName(customerDto.getLastName());
+            }
+            CustomerDto returnDto = customerMapper.customerToCustomerDto(customerRepository.save(customer));
+            returnDto.setCustomerUrl("/api/v1/customer/" + id);
+            return returnDto;
+        }).orElseThrow(RuntimeException::new); // TODO: better exception handling
+    }
+
+    @Override
+    public void deleteCustomerById(Long id) {
+        customerRepository.deleteById(id);
+    }
 }
