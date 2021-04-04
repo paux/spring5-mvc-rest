@@ -12,7 +12,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.Arrays;
 import java.util.List;
 
-import static cc.paukner.controllers.CustomerController.BASE_URL;
+import static cc.paukner.controllers.v1.CustomerController.BASE_URL;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;

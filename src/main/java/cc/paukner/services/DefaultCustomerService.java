@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static cc.paukner.controllers.CustomerController.BASE_URL;
+import static cc.paukner.controllers.v1.CustomerController.BASE_URL;
 
 @Service
 public class DefaultCustomerService implements CustomerService {
@@ -44,7 +44,7 @@ public class DefaultCustomerService implements CustomerService {
 //        return customerMapper.customerToCustomerDto(customerRepository.findById(id).get());
         return customerRepository.findById(id)
                 .map(customerMapper::customerToCustomerDto)
-                .orElseThrow(RuntimeException::new); // TODO better exception handling: HTTP 404
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class DefaultCustomerService implements CustomerService {
             CustomerDto returnDto = customerMapper.customerToCustomerDto(customerRepository.save(customer));
             returnDto.setCustomerUrl(getCustomerUrl(id));
             return returnDto;
-        }).orElseThrow(RuntimeException::new); // TODO: better exception handling
+        }).orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override

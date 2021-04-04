@@ -1,7 +1,7 @@
 package cc.paukner.controllers.v1;
 
 import cc.paukner.api.v1.model.CustomerDto;
-import cc.paukner.controllers.CustomerController;
+import cc.paukner.controllers.RestResponseEntityExceptionHandler;
 import cc.paukner.services.CustomerService;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.List;
 
-import static cc.paukner.controllers.CustomerController.BASE_URL;
+import static cc.paukner.controllers.v1.CustomerController.BASE_URL;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
@@ -48,7 +48,9 @@ public class CustomerControllerTest extends AbstractRestControllerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        mockMvc = MockMvcBuilders.standaloneSetup(customerController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(customerController)
+                .setControllerAdvice(new RestResponseEntityExceptionHandler())
+                .build();
     }
 
     @Test
