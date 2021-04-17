@@ -2,8 +2,10 @@ package cc.paukner.bootstrap;
 
 import cc.paukner.domain.Category;
 import cc.paukner.domain.Customer;
+import cc.paukner.domain.Vendor;
 import cc.paukner.repositories.CategoryRepository;
 import cc.paukner.repositories.CustomerRepository;
+import cc.paukner.repositories.VendorRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -14,16 +16,19 @@ public class Bootstrap implements CommandLineRunner {
 
     private final CategoryRepository categoryRepository;
     private final CustomerRepository customerRepository;
+    private final VendorRepository vendorRepository;
 
-    public Bootstrap(CategoryRepository categoryRepository, CustomerRepository customerRepository) {
+    public Bootstrap(CategoryRepository categoryRepository, CustomerRepository customerRepository, VendorRepository vendorRepository) {
         this.categoryRepository = categoryRepository;
         this.customerRepository = customerRepository;
+        this.vendorRepository = vendorRepository;
     }
 
     @Override
     public void run(String... args) {
         generateCategories();
         generateCustomers();
+        generateVendors();
     }
 
     public void generateCategories() {
@@ -45,5 +50,14 @@ public class Bootstrap implements CommandLineRunner {
         customerRepository.saveAll(List.of(seppForcher, karlMoik));
 
         System.out.println("Customers loaded: " + customerRepository.count());
+    }
+
+    public void generateVendors() {
+        Vendor acme = Vendor.builder().name("ACME, Inc.").build();
+        Vendor hinzKunz = Vendor.builder().name("Hinz und Kunz GmbH & Co. KG").build();
+
+        vendorRepository.saveAll(List.of(acme, hinzKunz));
+
+        System.out.println("Vendors loaded: " + vendorRepository.count());
     }
 }

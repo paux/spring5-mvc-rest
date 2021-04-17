@@ -6,6 +6,7 @@ import cc.paukner.bootstrap.Bootstrap;
 import cc.paukner.domain.Customer;
 import cc.paukner.repositories.CategoryRepository;
 import cc.paukner.repositories.CustomerRepository;
+import cc.paukner.repositories.VendorRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,6 +32,9 @@ public class DefaultCustomerServiceIT {
     @Autowired
     CategoryRepository categoryRepository;
 
+    @Autowired
+    VendorRepository vendorRepository;
+
     CustomerService customerService;
 
     @Before
@@ -38,7 +42,7 @@ public class DefaultCustomerServiceIT {
         System.out.println("Loading customer data: " + customerRepository.findAll().size());
 
         // prepare data for testing
-        new Bootstrap(categoryRepository, customerRepository).run();
+        new Bootstrap(categoryRepository, customerRepository, vendorRepository).run();
 
         customerService = new DefaultCustomerService(CustomerMapper.INSTANCE, customerRepository);
     }
