@@ -3,6 +3,8 @@ package cc.paukner.controllers.v1;
 import cc.paukner.api.v1.model.VendorDto;
 import cc.paukner.api.v1.model.VendorListDto;
 import cc.paukner.services.VendorService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+@Api(description = "The assignment said I should add this in")
 @RestController
 @RequestMapping(VendorController.BASE_URL)
 public class VendorController {
@@ -26,6 +29,7 @@ public class VendorController {
         this.vendorService = vendorService;
     }
 
+    @ApiOperation(value = "The assignment said I should add this in as well", notes = "You see, the instructor is always right, totally")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public VendorListDto getAllVendors() {
